@@ -58,11 +58,11 @@ body {
 .review {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.85rem;
 }
 
-.review .stars {
-  margin-right: 0.5rem;
+.stars {
+  min-width: 120px;
 }
 
 .review .comment {
@@ -85,6 +85,11 @@ body {
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+.btn:hover {
+  color: #000;
+  border: 1px solid #000;
 }
 
 .btn:active {
