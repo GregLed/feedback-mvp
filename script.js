@@ -25,12 +25,18 @@ let data = [
   },
 ];
 
+// Check data in local storage
+let reviewsData = JSON.parse(localStorage.getItem("reviews"));
+if (reviewsData) {
+  data = reviewsData;
+}
+
+createReviews(data);
+
 let halfStar;
 let halfStarCached;
 let rating;
 let ratingCached;
-
-createReviews(data);
 
 starPickers.forEach((star) => {
   star.addEventListener("mousemove", (e) => {
@@ -86,6 +92,8 @@ submitReviewBtn.addEventListener("click", () => {
     rating: halfStarCached ? ratingCached - 0.5 : ratingCached,
     comment: userComment.value,
   });
+
+  localStorage.setItem("reviews", JSON.stringify(data));
 
   // Clear user inputs
   halfStar = null;
