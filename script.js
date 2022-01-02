@@ -1,16 +1,34 @@
 const card = document.querySelector(".card");
 const newReview = document.querySelector(".new-review");
+const reviews = document.querySelector(".reviews");
 const addReviewBtn = document.getElementById("add-btn");
-const submitReviewBtn = document.getElementById("submit-btn");
 const starPickers = document.querySelectorAll(".picker");
+const submitReviewBtn = document.getElementById("submit-btn");
 
 const lightGreyColor = "#bebebe";
 const yellowColor = "#f8e825";
+
+let data = [
+  {
+    rating: 4,
+    comment: "book was full of fluff",
+  },
+  {
+    rating: 3,
+    comment: "book was fluff",
+  },
+  {
+    rating: 4,
+    comment: "book was amazing",
+  },
+];
 
 let halfStar;
 let halfStarCached;
 let rating;
 let ratingCached;
+
+createReviews(data);
 
 starPickers.forEach((star) => {
   star.addEventListener("mousemove", (e) => {
@@ -84,4 +102,45 @@ function colorPreceedingStars(rate, halfStar) {
         star.children[0].style.color = yellowColor;
       }
     });
+}
+
+function createReviews(data) {
+  data.forEach((review) => {
+    const reviewElDOM = document.createElement("div");
+    reviewElDOM.classList.add("review");
+
+    reviewElDOM.innerHTML = `
+        <div class="stars">
+          <span>
+            <i style="color: ${
+              review.rating >= 1 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              review.rating >= 2 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              review.rating >= 3 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              review.rating >= 4 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              review.rating >= 5 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+        </div>
+        <div class="comment"><strong>${review.rating}</strong>, ${
+      review.comment
+    }</div>`;
+
+    reviews.appendChild(reviewElDOM);
+  });
 }
