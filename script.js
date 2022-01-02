@@ -5,7 +5,7 @@ const addReviewBtn = document.getElementById("add-btn");
 const starPickers = document.querySelectorAll(".picker");
 const submitReviewBtn = document.getElementById("submit-btn");
 const userComment = document.getElementById("user-comment");
-const numRating = document.querySelector(".num-rating");
+const totalRating = document.querySelector(".total-rating");
 
 const lightGreyColor = "#bebebe";
 const yellowColor = "#f8e825";
@@ -45,7 +45,6 @@ starPickers.forEach((star) => {
       halfStar = false;
     }
 
-    // Covert to int
     rating = +star.id;
 
     removeColorStars();
@@ -84,18 +83,20 @@ addReviewBtn.addEventListener("click", () => {
 submitReviewBtn.addEventListener("click", () => {
   // Add user feedback to data array
   data.push({
-    rating: ratingCached,
+    rating: halfStarCached ? ratingCached - 0.5 : ratingCached,
     comment: userComment.value,
   });
 
-  // Clear data
+  // Clear user inputs
   halfStar = null;
   halfStarCached = null;
   rating = null;
   ratingCached = null;
   userComment.value = "";
+  submitReviewBtn.disabled = true;
   removeColorStars();
 
+  // Create new reviews and activate screen
   createReviews(data);
 
   newReview.classList.remove("active");
@@ -123,6 +124,7 @@ function colorPreceedingStars(rate, halfStar) {
 }
 
 function createReviews(data) {
+  // Create a list of reviews
   reviews.innerHTML = "";
 
   data.forEach((review) => {
@@ -139,6 +141,24 @@ function createReviews(data) {
 
     reviews.appendChild(reviewEl);
   });
+
+  // Calculate and update average
+  let average =
+    data.reduce((acc, cur) => {
+      return acc + cur.rating;
+    }, 0) / data.length;
+
+  // One decimal place only (no zero)
+  average = average.toFixed(1).replace(/[.,]0$/, "");
+
+  totalRating.innerHTML = "";
+
+  const numRating = document.createElement("div");
+  numRating.classList.add("num-rating");
+  numRating.innerHTML = average;
+
+  totalRating.appendChild(numRating);
+  totalRating.appendChild(createStars(average));
 }
 
 function createStars(score) {
@@ -159,7 +179,7 @@ function createStar(score, threshold) {
 
   iEl.style.color = score >= threshold - 0.5 ? yellowColor : lightGreyColor;
 
-  const cName =
+  const className =
     score >= threshold
       ? "fa-star"
       : score >= threshold - 0.5
@@ -167,8 +187,9 @@ function createStar(score, threshold) {
       : "fa-star";
 
   iEl.classList.add("fas");
-  iEl.classList.add(cName);
+  iEl.classList.add(className);
 
+  // Wrap in span element
   const spanEl = document.createElement("span");
 
   return spanEl.appendChild(iEl);
