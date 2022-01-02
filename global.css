@@ -27,9 +27,14 @@ body {
   height: 700px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   padding: 3rem 7rem;
+  display: none;
 }
 
-.card h2 {
+.card.active {
+  display: block;
+}
+
+h2 {
   margin-bottom: 1.5rem;
 }
 
@@ -97,5 +102,38 @@ body {
 }
 
 .btn:focus {
+  outline: none;
+}
+
+.new-review {
+  background-color: #fff;
+  width: 400px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  padding: 1.5rem 3rem;
+  display: none;
+}
+
+.new-review.active {
+  display: block;
+}
+
+.new-review p {
+  margin: 1rem 0rem;
+}
+
+.new-review label {
+  display: inline-block;
+  margin: 1rem 0rem;
+}
+
+input[type="text"] {
+  display: block;
+  font-family: inherit;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+input[type="text"]:focus {
   outline: none;
 }
