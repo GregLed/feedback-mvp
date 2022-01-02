@@ -4,6 +4,8 @@ const reviews = document.querySelector(".reviews");
 const addReviewBtn = document.getElementById("add-btn");
 const starPickers = document.querySelectorAll(".picker");
 const submitReviewBtn = document.getElementById("submit-btn");
+const userComment = document.getElementById("user-comment");
+const numRating = document.querySelector(".num-rating");
 
 const lightGreyColor = "#bebebe";
 const yellowColor = "#f8e825";
@@ -80,6 +82,22 @@ addReviewBtn.addEventListener("click", () => {
 });
 
 submitReviewBtn.addEventListener("click", () => {
+  // Add user feedback to data array
+  data.push({
+    rating: ratingCached,
+    comment: userComment.value,
+  });
+
+  // Clear data
+  halfStar = null;
+  halfStarCached = null;
+  rating = null;
+  ratingCached = null;
+  userComment.value = "";
+  removeColorStars();
+
+  createReviews(data);
+
   newReview.classList.remove("active");
   card.classList.add("active");
 });
@@ -105,48 +123,53 @@ function colorPreceedingStars(rate, halfStar) {
 }
 
 function createReviews(data) {
+  reviews.innerHTML = "";
+
   data.forEach((review) => {
-    const reviewElDOM = document.createElement("div");
+    const reviewEl = document.createElement("div");
+    const commentEl = document.createElement("div");
 
-    reviewElDOM.classList.add("review");
+    reviewEl.classList.add("review");
+    commentEl.classList.add("comment");
 
-    reviewElDOM.innerHTML = createStars(review.rating);
+    commentEl.innerHTML = `<strong>${review.rating}</strong>, ${review.comment}`;
 
-    reviewElDOM.innerHTML += `
-        <div class="comment"><strong>${review.rating}</strong>, ${review.comment}</div>`;
+    reviewEl.appendChild(createStars(review.rating));
+    reviewEl.appendChild(commentEl);
 
-    reviews.appendChild(reviewElDOM);
+    reviews.appendChild(reviewEl);
   });
 }
 
 function createStars(score) {
-  const stars = `<div class="stars">
-          <span>
-            <i style="color: ${
-              score >= 1 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              score >= 2 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              score >= 3 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              score >= 4 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              score >= 5 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-        </div>`;
+  const starsEl = document.createElement("div");
+  starsEl.classList.add("stars");
 
-  return stars;
+  starsEl.appendChild(createStar(score, 1));
+  starsEl.appendChild(createStar(score, 2));
+  starsEl.appendChild(createStar(score, 3));
+  starsEl.appendChild(createStar(score, 4));
+  starsEl.appendChild(createStar(score, 5));
+
+  return starsEl;
+}
+
+function createStar(score, threshold) {
+  const iEl = document.createElement("i");
+
+  iEl.style.color = score >= threshold - 0.5 ? yellowColor : lightGreyColor;
+
+  const cName =
+    score >= threshold
+      ? "fa-star"
+      : score >= threshold - 0.5
+      ? "fa-star-half-alt"
+      : "fa-star";
+
+  iEl.classList.add("fas");
+  iEl.classList.add(cName);
+
+  const spanEl = document.createElement("span");
+
+  return spanEl.appendChild(iEl);
 }
