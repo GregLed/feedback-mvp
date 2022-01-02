@@ -75,7 +75,7 @@ h2 {
   opacity: 0.7;
 }
 
-.review .comment span {
+.review .comment strong {
   color: #000;
   font-weight: 700;
   opacity: 1;
@@ -85,7 +85,7 @@ h2 {
   background-color: transparent;
   color: var(--grey);
   font-family: inherit;
-  padding: 3px 15px;
+  padding: 0.25rem 2rem;
   border: 1px solid var(--light-grey);
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
@@ -103,6 +103,10 @@ h2 {
 
 .btn:focus {
   outline: none;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
 }
 
 .new-review {
@@ -131,7 +135,7 @@ input[type="text"] {
   display: block;
   font-family: inherit;
   border: none;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 input[type="text"]:focus {
