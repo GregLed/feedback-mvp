@@ -107,40 +107,46 @@ function colorPreceedingStars(rate, halfStar) {
 function createReviews(data) {
   data.forEach((review) => {
     const reviewElDOM = document.createElement("div");
+
     reviewElDOM.classList.add("review");
 
-    reviewElDOM.innerHTML = `
-        <div class="stars">
-          <span>
-            <i style="color: ${
-              review.rating >= 1 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              review.rating >= 2 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              review.rating >= 3 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              review.rating >= 4 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-          <span>
-            <i style="color: ${
-              review.rating >= 5 ? yellowColor : lightGreyColor
-            };" class='fas fa-star'></i>
-          </span>
-        </div>
-        <div class="comment"><strong>${review.rating}</strong>, ${
-      review.comment
-    }</div>`;
+    reviewElDOM.innerHTML = createStars(review.rating);
+
+    reviewElDOM.innerHTML += `
+        <div class="comment"><strong>${review.rating}</strong>, ${review.comment}</div>`;
 
     reviews.appendChild(reviewElDOM);
   });
+}
+
+function createStars(score) {
+  const stars = `<div class="stars">
+          <span>
+            <i style="color: ${
+              score >= 1 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              score >= 2 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              score >= 3 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              score >= 4 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+          <span>
+            <i style="color: ${
+              score >= 5 ? yellowColor : lightGreyColor
+            };" class='fas fa-star'></i>
+          </span>
+        </div>`;
+
+  return stars;
 }
