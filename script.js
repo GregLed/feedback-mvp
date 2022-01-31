@@ -8,7 +8,7 @@ const userComment = document.getElementById("user-comment");
 const totalRating = document.querySelector(".total-rating");
 
 const lightGreyColor = "#bebebe";
-const yellowColor = "#f8e825";
+const yellowColor = "#FFD700";
 
 let data = [
   {
@@ -112,23 +112,50 @@ submitReviewBtn.addEventListener("click", () => {
 });
 
 function removeColorStars() {
-  Array.from(starPickers).forEach((star) => {
-    star.children[0].classList = "fas fa-star";
-    star.children[0].style.color = lightGreyColor;
+  starPickers.forEach((star) => {
+    star.innerHTML = "";
+
+    const iEl = document.createElement("i");
+    iEl.classList.add("fas");
+    iEl.classList.add("fa-star");
+    iEl.style.color = lightGreyColor;
+
+    star.appendChild(iEl);
   });
 }
 
 function colorPreceedingStars(rate, halfStar) {
-  Array.from(starPickers)
-    .slice(0, rate)
-    .forEach((star, idx) => {
-      if (idx === rate - 1 && halfStar) {
-        star.children[0].classList = "fas fa-star-half-alt";
-        star.children[0].style.color = yellowColor;
-      } else {
-        star.children[0].style.color = yellowColor;
-      }
-    });
+  starPickers.forEach((star, idx) => {
+    if (idx >= rate) return;
+
+    star.innerHTML = "";
+
+    const iEl = document.createElement("i");
+    iEl.classList.add("fas");
+
+    // Create half gold star
+    if (idx === rate - 1 && halfStar) {
+      const iEl2 = document.createElement("i");
+      iEl2.classList.add("fas");
+
+      iEl.style.color = yellowColor;
+      iEl.classList.add("fa-star-half");
+      iEl.classList.add("halfstar");
+
+      iEl2.style.color = lightGreyColor;
+      iEl2.classList.add("fa-star");
+      iEl2.classList.add("background-star");
+
+      star.appendChild(iEl);
+      star.appendChild(iEl2);
+    }
+    // Create full gold star
+    else {
+      iEl.style.color = yellowColor;
+      iEl.classList.add("fa-star");
+      star.appendChild(iEl);
+    }
+  });
 }
 
 function createReviews(data) {
@@ -183,22 +210,41 @@ function createStars(score) {
 }
 
 function createStar(score, threshold) {
-  const iEl = document.createElement("i");
-
-  iEl.style.color = score >= threshold - 0.5 ? yellowColor : lightGreyColor;
-
-  const className =
-    score >= threshold
-      ? "fa-star"
-      : score >= threshold - 0.5
-      ? "fa-star-half-alt"
-      : "fa-star";
-
-  iEl.classList.add("fas");
-  iEl.classList.add(className);
-
   // Wrap in span element
   const spanEl = document.createElement("span");
 
-  return spanEl.appendChild(iEl);
+  const iEl = document.createElement("i");
+
+  iEl.classList.add("fas");
+
+  // Full gold star
+  if (score >= threshold) {
+    iEl.style.color = yellowColor;
+    iEl.classList.add("fa-star");
+    spanEl.appendChild(iEl);
+  }
+  // Half gold star
+  else if (score >= threshold - 0.5) {
+    const iEl2 = document.createElement("i");
+    iEl2.classList.add("fas");
+
+    iEl.style.color = yellowColor;
+    iEl.classList.add("fa-star-half");
+    iEl.classList.add("halfstar");
+
+    iEl2.style.color = lightGreyColor;
+    iEl2.classList.add("fa-star");
+    iEl2.classList.add("background-star");
+
+    spanEl.appendChild(iEl);
+    spanEl.appendChild(iEl2);
+  }
+  // Grey star
+  else {
+    iEl.style.color = lightGreyColor;
+    iEl.classList.add("fa-star");
+    spanEl.appendChild(iEl);
+  }
+
+  return spanEl;
 }

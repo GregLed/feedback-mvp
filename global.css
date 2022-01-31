@@ -1,7 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
 
 :root {
   --grey: #333;
+  --text-grey: #a5a5a5;
   --light-grey: #bebebe;
 }
 
@@ -18,15 +19,15 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow: hidden;
 }
 
 .card {
   background-color: #fff;
-  width: 600px;
-  height: 700px;
+  max-width: 600px;
+  height: 500px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   padding: 3rem 7rem;
+  overflow-y: auto;
   display: none;
 }
 
@@ -70,6 +71,50 @@ h2 {
   min-width: 120px;
 }
 
+.stars span {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 13.7px;
+}
+
+.halfstar,
+.background-star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.halfstar {
+  z-index: 2;
+}
+
+.stars-picker {
+  display: flex;
+  align-items: stretch;
+}
+
+.stars-picker span {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 25px;
+  overflow: hidden;
+}
+
+.stars-picker .halfstar,
+.stars-picker .background-star {
+  position: absolute;
+  top: 4px;
+  left: 0px;
+  z-index: 1;
+}
+
+.stars-picker .halfstar {
+  z-index: 2;
+}
+
 .review .comment {
   color: var(--grey);
   opacity: 0.7;
@@ -83,13 +128,18 @@ h2 {
 
 .btn {
   background-color: transparent;
-  color: var(--grey);
+  color: var(--text-grey);
   font-family: inherit;
-  padding: 0.25rem 2rem;
+  font-weight: 500;
+  padding: 0.2rem 1rem;
   border: 1px solid var(--light-grey);
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+#submit-btn {
+  padding: 0.2rem 2rem;
 }
 
 .btn:hover {
