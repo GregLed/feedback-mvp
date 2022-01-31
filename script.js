@@ -133,7 +133,7 @@ function colorPreceedingStars(rate, halfStar) {
 
 function createReviews(data) {
   // Create a list of reviews
-  reviews.innerHTML = "";
+  reviews.innerHTML = "<h3>Reviews</h3>";
 
   data.forEach((review) => {
     const reviewEl = document.createElement("div");
@@ -156,7 +156,7 @@ function createReviews(data) {
       return acc + cur.rating;
     }, 0) / data.length;
 
-  // One decimal place only (no zero)
+  // One decimal place only (no zeros)
   average = average.toFixed(1).replace(/[.,]0$/, "");
 
   totalRating.innerHTML = "";
